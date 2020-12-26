@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  laravel-test:
+  test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
@@ -24,8 +24,9 @@ jobs:
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       run: php artisan test
 
-  laravel-deploy:
+  deploy:
 
+    needs: test
     runs-on: ubuntu-latest
 
     steps:

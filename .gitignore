@@ -12,3 +12,4 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 .idea/simplechat01.time
+.env.testing
