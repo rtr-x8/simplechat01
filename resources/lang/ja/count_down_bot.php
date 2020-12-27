@@ -9,7 +9,7 @@ return [
         'expiredXDay' => ''
     ],
     'request' => [
-        'header_wrong' => '不正なリクエストヘッダによるリクエストがありました。',
-        'header_missing' => 'リクエストヘッダがないリクエストがありました。',
+        'header_wrong' => ':ipから不正なLINEリクエストヘッダによるリクエストがありました。',
+        'header_missing' => ':ipからLINEリクエストヘッダが空白のリクエストがありました。',
     ]
 ];

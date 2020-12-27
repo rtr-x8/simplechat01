@@ -21,7 +21,7 @@ class VerifyLineRequest
         $signature = $request->header(HTTPHeader::LINE_SIGNATURE);
 
         if (empty($signature)) {
-            Log::warning(__('count_down_bot.request.header_missing'));
+            Log::warning(__('count_down_bot.request.header_missing', ['ip' => $request->ip()]));
             return response('Bad Request', 400);
         }
 
@@ -30,7 +30,7 @@ class VerifyLineRequest
         $hash = hash_hmac('sha256', $httpRequestBody, $channelSecret);
 
         if (base64_encode($hash) !== $signature) {
-            Log::warning(__('count_down_bot.request.header_wrong'));
+            Log::warning(__('count_down_bot.request.header_wrong', ['ip' => $request->ip()]));
             return response('Bad Request', 400);
         }
 
