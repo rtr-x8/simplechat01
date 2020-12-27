@@ -7,5 +7,9 @@ return [
     ],
     'exception' => [
         'expiredXDay' => ''
+    ],
+    'request' => [
+        'header_wrong' => '不正なリクエストヘッダによるリクエストがありました。',
+        'header_missing' => 'リクエストヘッダがないリクエストがありました。',
     ]
 ];
