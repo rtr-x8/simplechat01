@@ -9,6 +9,6 @@ class CountDownChatBotController extends Controller
 {
     public function callback(Request $request)
     {
-        return response()->setStatusCode(200, 'Hello Line !');
+        return response('OK', 200);
     }
 }
