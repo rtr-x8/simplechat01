@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Line\CountDownChatBotController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +17,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::group(['namespace' => 'Api'], function () {
+    Route::group(['namespace' => 'Line', 'prefix' => 'line'], function () {
+        Route::post('/countdown/callback', [CountDownChatBotController::class, 'callback'])
+            ->middleware('line.request');
+    });
 });
