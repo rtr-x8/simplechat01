@@ -2,8 +2,8 @@
 
 namespace Tests\Http\Controllers\Api\Line;
 
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Http;
 use LINE\LINEBot\Constant\HTTPHeader;
 use Tests\TestCase;
 
@@ -46,7 +46,7 @@ class CountDownChatBotControllerTest extends TestCase
     }
 
     /**
-     * そのうちやる
+     * hum...
      */
     public function 正常なリクエストヘッダ()
     {
@@ -55,15 +55,13 @@ class CountDownChatBotControllerTest extends TestCase
 
         Config::set('line-bot.channel_secret', $channelSecret);
 
-        $signature = hash_hmac('sha256', $content, $channelSecret);
+        $signature = hash_hmac('sha256', $content, $channelSecret, true);
         // 0da5084c975a854acaab254ba517b860be5bf9a4b2d2fe41de8a66f8feab450a
 
-        $res = $this->withHeaders([
+        $res = Http::withBody($content)->withHeaders([
             HTTPHeader::LINE_SIGNATURE => $signature
         ])
-            ->createTestResponse(new Response())
-            ->setContent($content);
-        $res->post('/api/line/countdown/callback', [$content])
-            ->assertStatus(200);
+            ->post('/api/line/countdown/callback', ['body']);
+        $res->assertStatus(200);
     }
 }
