@@ -27,7 +27,7 @@ class VerifyLineRequest
 
         $channelSecret = config('line-bot.channel_secret');
         $httpRequestBody = $request->getContent();
-        $hash = hash_hmac('sha256', $httpRequestBody, $channelSecret);
+        $hash = hash_hmac('sha256', $httpRequestBody, $channelSecret, true);
 
         if (base64_encode($hash) !== $signature) {
             Log::warning(__('count_down_bot.request.header_wrong', ['ip' => $request->ip()]));

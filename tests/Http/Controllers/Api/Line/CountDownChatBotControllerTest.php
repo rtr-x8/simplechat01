@@ -2,7 +2,6 @@
 
 namespace Tests\Http\Controllers\Api\Line;
 
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
 use LINE\LINEBot\Constant\HTTPHeader;
 use Tests\TestCase;
@@ -61,9 +60,8 @@ class CountDownChatBotControllerTest extends TestCase
         $res = $this->withHeaders([
             HTTPHeader::LINE_SIGNATURE => $signature
         ])
-            ->createTestResponse(new Response())
-            ->setContent($content);
-        $res->post('/api/line/countdown/callback', [$content])
-            ->assertStatus(200);
+            ->post('/api/line/countdown/callback');
+
+        $res->setContent($content)->assertStatus(200);
     }
 }
