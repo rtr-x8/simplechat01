@@ -37,7 +37,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single', 'slack'],
+            'channels' => ['single', 'slack', 'errorlog'],
             'name' => 'chatbot01_'.env('APP_ENV'),
             'ignore_exceptions' => false,
         ],
@@ -60,7 +60,7 @@ return [
             'url' => env('LOG_SLACK_WEBHOOK_URL'),
             'username' => 'Laravel Log',
             'emoji' => ':boom:',
-            'level' => env('LOG_LEVEL', 'critical'),
+            'level' => env('LOG_LEVEL', 'info'),
         ],
 
         'papertrail' => [
