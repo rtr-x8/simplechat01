@@ -2,6 +2,7 @@
 version: '3'
 services:
     laravel.test:
+        container_name: simplechat01_web
         build:
             context: ./vendor/laravel/sail/runtimes/8.0
             dockerfile: Dockerfile
@@ -30,6 +31,7 @@ services:
     #     depends_on:
     #         - laravel.test
     mysql:
+        container_name: simplechat01_db
         image: 'mysql:8.0'
         ports:
             - '${FORWARD_DB_PORT:-3306}:3306'
@@ -44,6 +46,7 @@ services:
         networks:
             - sail
     redis:
+        container_name: simplechat01_redis
         image: 'redis:alpine'
         ports:
             - '${FORWARD_REDIS_PORT:-6379}:6379'
@@ -58,6 +61,7 @@ services:
     #     networks:
     #         - sail
     mailhog:
+        container_name: simplechat01_mailhog
         image: 'mailhog/mailhog:latest'
         ports:
             - 1025:1025
