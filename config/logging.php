@@ -37,7 +37,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single', 'slack'],
+            'channels' => ['single', 'slack', 'errorlog'],
             'name' => 'chatbot01_'.env('APP_ENV'),
             'ignore_exceptions' => false,
         ],
