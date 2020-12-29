@@ -2,7 +2,6 @@
 
 namespace App\Console;
 
-use CountDownChat\Domain\Day\XDay;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -25,10 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $today = now()->format(config('constants.format.systemDate'));
-        $xDay = XDay::new()->toString();
-        $schedule->command('chatbot:checkdates', [$today, $xDay])
-            ->dailyAt('12:00');
+        //
     }
 
     /**
