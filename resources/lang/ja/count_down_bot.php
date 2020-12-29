@@ -1,6 +1,11 @@
 <?php
 
 return [
+    'chara' => [
+        'today' => '今日',
+        'x_day' => 'Xデー',
+        'executed_day' => '実行日'
+    ],
     'hello' => 'こんにちは。',
     'message' => [
         'default' => ':xDayまで、あと:day日です。'
@@ -11,5 +16,10 @@ return [
     'request' => [
         'header_wrong' => ':ipから不正なLINEリクエストヘッダによるリクエストがありました。',
         'header_missing' => ':ipからLINEリクエストヘッダが空白のリクエストがありました。',
+    ],
+    'check_date' => [
+        'command' => [
+            'executed' => '日付を計算するバッチ処理「chatbot:checkdate」が起動しました。'
+        ]
     ]
 ];

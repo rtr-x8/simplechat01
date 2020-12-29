@@ -51,9 +51,11 @@ class CheckDateCommand extends Command
         $xDay = XDay::new()->toCarbon();
         $format = config('constants.format.date');
 
-        $debugMessage = "Count-down command executed. today: {$today->format($format)}, xDay: {$xDay->format($format)}";
-        $this->info($debugMessage);
-        Log::info($debugMessage);
+        Log::info(__('count_down_bot.check_date.command.executed'), [
+            __('count_down_bot.chara.today') => $today->format($format),
+            __('count_down_bot.chara.executed_day') => $today->format($format),
+            __('count_down_bot.chara.x_day') => $xDay->format($format)
+        ]);
 
         $this->postMessageUseCase->post($today, $xDay);
     }
