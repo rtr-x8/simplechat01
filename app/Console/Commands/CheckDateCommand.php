@@ -2,13 +2,13 @@
 
 namespace App\Console\Commands;
 
-use Carbon\Carbon;
 use CountDownChat\Application\Batch\PostDailyMessageUseCase;
+use CountDownChat\Domain\Day\XDay;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
-class CheckDatesCommand extends Command
+class CheckDateCommand extends Command
 {
     private PostDailyMessageUseCase $postMessageUseCase;
 
@@ -17,7 +17,7 @@ class CheckDatesCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'chatbot:chackdates {today} {xDay}';
+    protected $signature = 'chatbot:checkdate';
 
     /**
      * The console command description.
@@ -46,10 +46,12 @@ class CheckDatesCommand extends Command
      */
     public function handle(): void
     {
-        $today = Carbon::parse($this->argument('today'));
-        $xDay = Carbon::parse($this->argument('xDay'));
 
-        $debugMessage = "Count-down command executed. today: {$today}, xDay: {$xDay}";
+        $today = now();
+        $xDay = XDay::new()->toCarbon();
+        $format = config('constants.format.date');
+
+        $debugMessage = "Count-down command executed. today: {$today->format($format)}, xDay: {$xDay->format($format)}";
         $this->info($debugMessage);
         Log::info($debugMessage);
 
