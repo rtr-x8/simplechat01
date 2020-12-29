@@ -17,7 +17,7 @@ class CheckDatesCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'chatbot:chackdates {today} {xDay}';
+    protected $signature = 'chatbot:checkdates {today} {xDay}';
 
     /**
      * The console command description.
