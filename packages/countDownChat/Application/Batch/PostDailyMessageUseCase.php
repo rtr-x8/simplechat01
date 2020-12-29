@@ -26,6 +26,6 @@ class PostDailyMessageUseCase
             throw new Exception(__('count_down_bot.exception.expiredXDay'));
         }
         $message = CountDownMessageBuilder::new($today, $xDay, $compare->getDiff());
-        echo $message->__toString();
+        Log::info($message->__toString());
     }
 }
