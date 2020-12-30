@@ -6,8 +6,11 @@ namespace CountDownChat\Infrastructure\Liner\Repositories;
 
 use App\Exceptions\ChatBotLogicException;
 use CountDownChat\Domain\Liner\Liner;
+use CountDownChat\Domain\Liner\LinerId;
 use CountDownChat\Domain\Liner\Repositories\LinerRepository;
 use CountDownChat\Infrastructure\Liner\Model\LinerModel;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class LinerRepositoryImpl implements LinerRepository
 {
@@ -18,17 +21,21 @@ class LinerRepositoryImpl implements LinerRepository
      */
     public function save(Liner $liner): Liner
     {
+        $linerModel = LinerModel::fromDomain($liner);
+
         try {
-            $this->findByProviderId($liner->getProviderLinerId());
-        } catch (ChatBotLogicException $e) {
-            $linerModel = LinerModel::fromDomain($liner);
             $linerModel->save();
             return $linerModel->toDomain();
+        } catch (Exception $e) {
+            throw new ChatBotLogicException(
+                '保存しようとしたLinerのLINE IDが重複しました。',
+                0,
+                $e,
+                [
+                    'line id' => $liner->getLinerId()->value()
+                ]
+            );
         }
-
-        throw new ChatBotLogicException('保存しようとしたLinerのLINE IDが重複しました。', 0, null, [
-            'line id' => $liner->getLinerId()->value()
-        ]);
     }
 
     /**
@@ -70,5 +77,22 @@ class LinerRepositoryImpl implements LinerRepository
         return $linerModels->map(function (LinerModel $linerModel) {
             return $linerModel->toDomain();
         });
+    }
+
+    public function find(LinerId $linerId): Liner
+    {
+        try {
+            $linerModel = LinerModel::query()->findOrFail($linerId->value());
+            return $linerModel->toDomain();
+        } catch (ModelNotFoundException $e) {
+            throw new ChatBotLogicException(
+                'ライナーを検索できませんでした。',
+                0,
+                $e,
+                [
+                    'line id' => $linerId->value()
+                ]
+            );
+        }
     }
 }

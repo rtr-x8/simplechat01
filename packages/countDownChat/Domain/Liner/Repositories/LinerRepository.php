@@ -5,9 +5,18 @@ namespace CountDownChat\Domain\Liner\Repositories;
 
 
 use CountDownChat\Domain\Liner\Liner;
+use CountDownChat\Domain\Liner\LinerId;
 
 interface LinerRepository
 {
+    /**
+     * 検索する。
+     *
+     * @param  LinerId  $linerId
+     * @return Liner
+     */
+    public function find(LinerId $linerId): Liner;
+
     /**
      * 保存する
      *

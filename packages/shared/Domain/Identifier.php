@@ -21,7 +21,7 @@ class Identifier
 
     public static function new()
     {
-        return Identifier::of(Str::orderedUuid());
+        return new static(Str::orderedUuid());
     }
 
     public static function of($value)

@@ -16,7 +16,7 @@ class LinerModel extends Model
     public $incrementing = false;
     public $keyType = 'string';
     protected $table = "liners";
-    protected $primaryKey = 'liners_id';
+    protected $primaryKey = 'liner_id';
 
     /**
      * The attributes that are mass assignable.
