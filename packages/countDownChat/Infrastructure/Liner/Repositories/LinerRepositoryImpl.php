@@ -27,7 +27,7 @@ class LinerRepositoryImpl implements LinerRepository
             $linerModel->save();
             return $linerModel->toDomain();
         } catch (Exception $e) {
-            throw new ChatBotLogicException(
+            $error = new ChatBotLogicException(
                 '保存しようとしたLinerのLINE IDが重複しました。',
                 0,
                 $e,
@@ -35,6 +35,8 @@ class LinerRepositoryImpl implements LinerRepository
                     'line id' => $liner->getLinerId()->value()
                 ]
             );
+            $error->report();
+            throw $error;
         }
     }
 
@@ -48,9 +50,14 @@ class LinerRepositoryImpl implements LinerRepository
             ->where('provided_liner_id', $key)
             ->first();
         if (is_null($linerModel)) {
-            throw new ChatBotLogicException('ラインIDでLinerが見つかりませんでした。', 0, null, [
-                'line id' => $key
-            ]);
+            $error = new ChatBotLogicException('ラインIDでLinerが見つかりませんでした。',
+                0,
+                null,
+                [
+                    'line id' => $key
+                ]);
+            $error->report();
+            throw $error;
         }
         return $linerModel->toDomain();
     }
@@ -63,12 +70,16 @@ class LinerRepositoryImpl implements LinerRepository
     {
         $linerModel = LinerModel::query()->find($liner->getLinerId()->value());
         if (is_null($linerModel)) {
-            throw new ChatBotLogicException('存在しないライナーを更新しようとしました。。',
+            $error = new ChatBotLogicException(
+                '存在しないライナーを更新しようとしました。。',
                 0,
                 null,
                 [
                     'line id' => $liner->getLinerId()->value()
-                ]);
+                ]
+            );
+            $error->report();
+            throw $error;
         }
         $linerModel->update($array);
         return $linerModel->toDomain();
@@ -90,6 +101,7 @@ class LinerRepositoryImpl implements LinerRepository
 
     /**
      * @inheritDoc
+     * @throws ChatBotLogicException
      */
     public function find(LinerId $linerId): Liner
     {
@@ -97,7 +109,7 @@ class LinerRepositoryImpl implements LinerRepository
             $linerModel = LinerModel::query()->findOrFail($linerId->value());
             return $linerModel->toDomain();
         } catch (ModelNotFoundException $e) {
-            throw new ChatBotLogicException(
+            $error = new ChatBotLogicException(
                 'ライナーを検索できませんでした。',
                 0,
                 $e,
@@ -105,6 +117,8 @@ class LinerRepositoryImpl implements LinerRepository
                     'line id' => $linerId->value()
                 ]
             );
+            $error->report();
+            throw $error;
         }
     }
 }

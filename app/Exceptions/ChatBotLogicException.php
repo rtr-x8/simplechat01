@@ -19,8 +19,6 @@ class ChatBotLogicException extends Exception
         $this->message = $message;
         $this->code = $code;
         $this->data = $data;
-
-        $this->report();
     }
 
     public function report(): void
