@@ -2,9 +2,10 @@
 
 namespace Database\Factories;
 
-use CountDownChat\Infrastructure\User\Model\User;
+
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use Shared\Model\UserModel;
 
 class UserFactory extends Factory
 {
@@ -13,7 +14,7 @@ class UserFactory extends Factory
      *
      * @var string
      */
-    protected $model = User::class;
+    protected $model = UserModel::class;
 
     /**
      * Define the model's default state.
@@ -23,6 +24,7 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
+            'user_id' => Str::orderedUuid(),
             'name' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
             'email_verified_at' => now(),

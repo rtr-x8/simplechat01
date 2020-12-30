@@ -1,12 +1,12 @@
 <?php
 
-namespace CountDownChat\Infrastructure\User\Model;
+namespace Shared\Model;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class UserModel extends Authenticatable
 {
     use HasFactory, Notifiable;
 
