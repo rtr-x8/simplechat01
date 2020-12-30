@@ -98,7 +98,7 @@ class LinerRepositoryImplTest extends TestCase
     }
 
     /**
-     *
+     * @test
      * @throws ChatBotLogicException
      */
     public function 更新可能()
@@ -112,12 +112,24 @@ class LinerRepositoryImplTest extends TestCase
             'is_active' => false
         ]);
 
-        dd($updatedLiner);
-
         $this->assertFalse($updatedLiner->isActive());
 
         $searched = $this->linerRepository->findByProviderId($liner->getProviderLinerId());
 
         $this->assertFalse($searched->isActive());
+    }
+
+    /**
+     * @test
+     * @throws ChatBotLogicException
+     */
+    public function 存在しないライナーを更新しようとして例外()
+    {
+        $this->expectException(ChatBotLogicException::class);
+
+        $linerModel = LinerModel::factory()->make();
+        $this->linerRepository->update($linerModel->toDomain(), [
+            'is_active' => false
+        ]);
     }
 }

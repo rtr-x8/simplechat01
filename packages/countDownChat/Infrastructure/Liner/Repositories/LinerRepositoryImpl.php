@@ -57,10 +57,19 @@ class LinerRepositoryImpl implements LinerRepository
 
     /**
      * @inheritDoc
+     * @throws ChatBotLogicException
      */
     public function update(Liner $liner, array $array): Liner
     {
-        $linerModel = LinerModel::fromDomain($liner);
+        $linerModel = LinerModel::query()->find($liner->getLinerId()->value());
+        if (is_null($linerModel)) {
+            throw new ChatBotLogicException('存在しないライナーを更新しようとしました。。',
+                0,
+                null,
+                [
+                    'line id' => $liner->getLinerId()->value()
+                ]);
+        }
         $linerModel->update($array);
         return $linerModel->toDomain();
     }
@@ -79,6 +88,9 @@ class LinerRepositoryImpl implements LinerRepository
         });
     }
 
+    /**
+     * @inheritDoc
+     */
     public function find(LinerId $linerId): Liner
     {
         try {
