@@ -47,5 +47,5 @@ interface LinerRepository
      *
      * @return Liner[]
      */
-    public function getActiveLiners(): array;
+    public function findActiveLiners(): array;
 }

@@ -132,4 +132,17 @@ class LinerRepositoryImplTest extends TestCase
             'is_active' => false
         ]);
     }
+
+    /**
+     * @test
+     */
+    public function アクティブなライナー一覧取得()
+    {
+        LinerModel::factory(8)->create(['is_active' => true]);
+        LinerModel::factory(7)->create(['is_active' => false]);
+
+        $results = $this->linerRepository->findActiveLiners();
+
+        $this->assertCount(8, $results);
+    }
 }

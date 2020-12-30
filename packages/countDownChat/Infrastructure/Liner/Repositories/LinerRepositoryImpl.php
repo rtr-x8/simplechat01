@@ -77,7 +77,7 @@ class LinerRepositoryImpl implements LinerRepository
     /**
      * @inheritDoc
      */
-    public function getActiveLiners(): array
+    public function findActiveLiners(): array
     {
         $linerModels = LinerModel::query()
             ->where('is_active', true)
@@ -85,7 +85,7 @@ class LinerRepositoryImpl implements LinerRepository
 
         return $linerModels->map(function (LinerModel $linerModel) {
             return $linerModel->toDomain();
-        });
+        })->toArray();
     }
 
     /**
