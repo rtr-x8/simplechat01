@@ -30,6 +30,10 @@ class LinerModel extends Model
         'is_active',
     ];
 
+    protected $casts = [
+        'source_type' => 'int',
+    ];
+
     protected static function newFactory()
     {
         return LinerModelFactory::new();
