@@ -42,7 +42,6 @@ class LinerModel extends Model
     public function toDomain(): Liner
     {
         $liner = new Liner(LinerId::of($this->liner_id));
-        dd($this->source_type);
         return $liner
             ->setIsActive($this->is_active)
             ->setLinerSourceType(LinerSourceType::fromValue($this->source_type))
