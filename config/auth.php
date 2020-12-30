@@ -1,5 +1,7 @@
 <?php
 
+use Shared\Model\UserModel;
+
 return [
 
     /*
@@ -50,7 +52,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | User Providers
+    | UserModel Providers
     |--------------------------------------------------------------------------
     |
     | All authentication drivers have a user provider. This defines how the
@@ -68,7 +70,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => UserModel::class,
         ],
 
         // 'users' => [
