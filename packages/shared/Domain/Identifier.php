@@ -26,7 +26,7 @@ class Identifier
 
     public static function of($value)
     {
-        return static($value);
+        return new static($value);
     }
 
     public function equals(Identifier $identifier): bool
@@ -42,4 +42,11 @@ class Identifier
     {
         return $this->value;
     }
+
+    public function __toString()
+    {
+        return $this->value();
+    }
+
+
 }

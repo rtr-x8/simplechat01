@@ -4,11 +4,14 @@ namespace CountDownChat\Infrastructure\Liner\Model;
 
 use CountDownChat\Domain\Liner\Liner;
 use CountDownChat\Domain\Liner\LinerId;
+use CountDownChat\Domain\Liner\LinerSourceType;
+use Database\Factories\LinerModelFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class LinerModel extends Model
 {
-    // use HasFactory;
+    use HasFactory;
 
     public $incrementing = false;
     public $keyType = 'string';
@@ -27,12 +30,17 @@ class LinerModel extends Model
         'is_active',
     ];
 
+    protected static function newFactory()
+    {
+        return LinerModelFactory::new();
+    }
+
     public function toDomain(): Liner
     {
-        $liner = new Liner(LinerId::of($this->getKey()));
+        $liner = new Liner(LinerId::of($this->liner_id));
         return $liner
             ->setIsActive($this->is_active)
-            ->setLinerSourceType($this->source_type)
+            ->setLinerSourceType(LinerSourceType::fromValue($this->source_type))
             ->setProviderLinerId($this->provided_liner_id);
     }
 
