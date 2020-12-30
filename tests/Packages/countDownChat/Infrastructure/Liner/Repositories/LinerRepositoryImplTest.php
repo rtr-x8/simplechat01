@@ -45,4 +45,27 @@ class LinerRepositoryImplTest extends TestCase
         parent::setUp();
         $this->linerRepository = new LinerRepositoryImpl();
     }
+
+    /**
+     * @test
+     */
+    public function ラインIDで検索できる()
+    {
+        $linerModel = LinerModel::factory()->create();
+        $liner = $linerModel->toDomain();
+        $actual = $this->linerRepository->findByProviderId($liner->getProviderLinerId());
+
+        $this->assertEquals($liner->getLinerId()->value(), $actual->getLinerId()->value());
+    }
+
+    /**
+     * @test
+     * @throws ChatBotLogicException
+     */
+    public function 存在しないラインIDで検索して例外()
+    {
+        $this->expectException(ChatBotLogicException::class);
+
+        $this->linerRepository->findByProviderId('aa');
+    }
 }

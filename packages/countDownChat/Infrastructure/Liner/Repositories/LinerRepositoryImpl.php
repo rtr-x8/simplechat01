@@ -8,7 +8,6 @@ use App\Exceptions\ChatBotLogicException;
 use CountDownChat\Domain\Liner\Liner;
 use CountDownChat\Domain\Liner\Repositories\LinerRepository;
 use CountDownChat\Infrastructure\Liner\Model\LinerModel;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class LinerRepositoryImpl implements LinerRepository
 {
@@ -21,25 +20,31 @@ class LinerRepositoryImpl implements LinerRepository
     {
         try {
             $this->findByProviderId($liner->getProviderLinerId());
-        } catch (ModelNotFoundException $e) {
+        } catch (ChatBotLogicException $e) {
             $linerModel = LinerModel::fromDomain($liner);
             $linerModel->save();
             return $linerModel->toDomain();
         }
 
-        throw new ChatBotLogicException('保存しようとしたユーザーのLINE IDが重複しました。', 0, null, [
+        throw new ChatBotLogicException('保存しようとしたLinerのLINE IDが重複しました。', 0, null, [
             'line id' => $liner->getLinerId()->value()
         ]);
     }
 
     /**
      * @inheritDoc
+     * @throws ChatBotLogicException
      */
     public function findByProviderId(string $key): Liner
     {
         $linerModel = LinerModel::query()
             ->where('provided_liner_id', $key)
-            ->firstOrFail();
+            ->first();
+        if (is_null($linerModel)) {
+            throw new ChatBotLogicException('ラインIDでLinerが見つかりませんでした。', 0, null, [
+                'line id' => $key
+            ]);
+        }
         return $linerModel->toDomain();
     }
 
