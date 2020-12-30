@@ -4,8 +4,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use LINE\LINEBot\Constant\HTTPHeader;
+use Log;
 
 class VerifyLineRequest
 {

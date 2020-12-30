@@ -6,7 +6,7 @@ use CountDownChat\Application\Batch\PostDailyMessageUseCase;
 use CountDownChat\Domain\Day\XDay;
 use Exception;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
+use Log;
 
 class CheckDateCommand extends Command
 {
