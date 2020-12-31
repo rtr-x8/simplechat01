@@ -102,7 +102,6 @@ class FollowEventHandler implements LineEventHandler
     private function createMessage(): MessageBuilder
     {
         $greetingMessage = "こんにちは！\n2022年まで毎日カウントダウンする、スーパーチャットボットです！";
-
         $countdownMessage = CountDownMessageBuilder::new(today(), XDay::new()->toCarbon());
         return new TextMessageBuilder($greetingMessage, $countdownMessage->__toString());
     }
