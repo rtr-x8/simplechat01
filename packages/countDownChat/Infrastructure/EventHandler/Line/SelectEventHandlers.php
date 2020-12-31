@@ -5,6 +5,7 @@ namespace CountDownChat\Infrastructure\EventHandler\Line;
 
 
 use LINE\LINEBot\Event\FollowEvent;
+use LINE\LINEBot\Event\UnfollowEvent;
 use Log;
 use Shared\EventHandler\Line\LineEventHandler;
 
@@ -18,15 +19,19 @@ use Shared\EventHandler\Line\LineEventHandler;
 class SelectEventHandlers
 {
     private FollowEventHandler $followEventHandler;
+    private UnfollowEventHandler $unFollowEventHandler;
 
     /**
      * SelectEventHandlers constructor.
      * @param  FollowEventHandler  $followEventHandler
+     * @param  UnfollowEventHandler  $unFollowEventHandler
      */
     public function __construct(
-        FollowEventHandler $followEventHandler
+        FollowEventHandler $followEventHandler,
+        UnfollowEventHandler $unFollowEventHandler
     ) {
         $this->followEventHandler = $followEventHandler;
+        $this->unFollowEventHandler = $unFollowEventHandler;
     }
 
 
@@ -38,6 +43,8 @@ class SelectEventHandlers
     {
         if ($event instanceof FollowEvent) {
             return $this->followEventHandler->setEvent($event);
+        } elseif ($event instanceof UnfollowEvent) {
+            return $this->unFollowEventHandler->setEvent($event);
         }
 
 
@@ -76,10 +83,6 @@ class SelectEventHandlers
                             get_class($event)
                         ));
                     }
-                } elseif ($event instanceof UnfollowEvent) {
-                    // $handler = new UnfollowEventHandler($event);
-                } elseif ($event instanceof FollowEvent) {
-                    $handler = new FollowEventHandler($event);
                 } elseif ($event instanceof JoinEvent) {
                     // $handler = new JoinEventHandler($event);
                 } elseif ($event instanceof LeaveEvent) {
