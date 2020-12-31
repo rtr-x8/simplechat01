@@ -5,6 +5,7 @@ namespace Tests\Packages\countDownChat\Application;
 
 
 use CountDownChat\Application\Batch\PostDailyMessageUseCase;
+use CountDownChat\Domain\Liner\Repositories\LinerRepository;
 use Exception;
 use Log;
 use Tests\TestCase;
@@ -26,7 +27,12 @@ class PostDailyMessageUseCaseTest extends TestCase
         $today = now();
         $xDay = now();
 
-        $useCase = new PostDailyMessageUseCase();
+        $repositoryMock = \Mockery::mock(LinerRepository::class);
+        $repositoryMock
+            ->shouldReceive('findActiveLiners')
+            ->andReturn([]);
+
+        $useCase = new PostDailyMessageUseCase($repositoryMock);
         $useCase->post($today, $xDay);
     }
 }
