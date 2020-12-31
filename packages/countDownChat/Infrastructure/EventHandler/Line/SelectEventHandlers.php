@@ -4,7 +4,9 @@
 namespace CountDownChat\Infrastructure\EventHandler\Line;
 
 
+use CountDownChat\Infrastructure\EventHandler\Line\MessageHandler\TextMessageHandler;
 use LINE\LINEBot\Event\FollowEvent;
+use LINE\LINEBot\Event\MessageEvent;
 use LINE\LINEBot\Event\UnfollowEvent;
 use Log;
 use Shared\EventHandler\Line\LineEventHandler;
@@ -20,18 +22,22 @@ class SelectEventHandlers
 {
     private FollowEventHandler $followEventHandler;
     private UnfollowEventHandler $unFollowEventHandler;
+    private TextMessageHandler $textMessageHandler;
 
     /**
      * SelectEventHandlers constructor.
      * @param  FollowEventHandler  $followEventHandler
      * @param  UnfollowEventHandler  $unFollowEventHandler
+     * @param  TextMessageHandler  $textMessageHandler
      */
     public function __construct(
         FollowEventHandler $followEventHandler,
-        UnfollowEventHandler $unFollowEventHandler
+        UnfollowEventHandler $unFollowEventHandler,
+        TextMessageHandler $textMessageHandler
     ) {
         $this->followEventHandler = $followEventHandler;
         $this->unFollowEventHandler = $unFollowEventHandler;
+        $this->textMessageHandler = $textMessageHandler;
     }
 
 
@@ -41,12 +47,13 @@ class SelectEventHandlers
      */
     public function select($event)
     {
-        if ($event instanceof FollowEvent) {
+        if ($event instanceof MessageEvent) {
+            return $this->textMessageHandler->setEvent($event);
+        } elseif ($event instanceof FollowEvent) {
             return $this->followEventHandler->setEvent($event);
         } elseif ($event instanceof UnfollowEvent) {
             return $this->unFollowEventHandler->setEvent($event);
         }
-
 
         Log::info(sprintf(
             'Unexpected event type has come, something wrong [class name: %s]',
