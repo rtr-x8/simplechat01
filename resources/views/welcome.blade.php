@@ -53,6 +53,16 @@
             font-size: 150%;
         }
 
+        .btn {
+            color: #fff;
+            background: #10B806;
+            padding: 20px 20px;
+            font-size: 20px;
+            display: block;
+            text-decoration: none;
+            font-family: -apple-system, BlinkMacSystemFont, Roboto, "Segoe UI", "Helvetica Neue", HelveticaNeue, YuGothic, "Yu Gothic Medium", "Yu Gothic", Verdana, Meiryo, sans-serif;
+        }
+
         .img {
             width: 180px;
         }
@@ -81,9 +91,15 @@
 </head>
 <body class="wrapper">
 <h1>Count Down<br><span>2022</span></h1>
-<div class="line-it-button" data-lang="ja" data-type="friend" data-lineid="284aezpw" style="display: none;"></div>
-<script src="https://www.line-website.com/social-plugins/js/thirdparty/loader.min.js" async="async"
-        defer="defer"></script>
-<p class="img"><img src="https://qr-official.line.me/sid/L/166gqgsq.png" alt=""></p>
+<p>
+    <a class="btn" href="https://line.me/R/ti/p/@284aezpw">
+        タップして友達追加！！
+    </a>
+</p>
+<p class="img">
+    <a href="https://line.me/R/ti/p/@284aezpw">
+        <img src="https://qr-official.line.me/sid/L/166gqgsq.png" alt="">
+    </a>
+</p>
 </body>
 </html>
