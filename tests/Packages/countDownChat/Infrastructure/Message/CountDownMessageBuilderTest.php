@@ -20,7 +20,7 @@ class CountDownMessageBuilderTest extends TestCase
         $diff = $today->diff($xDay);
         $message = CountDownMessageBuilder::new($today, $xDay, $diff->days);
 
-        $expected = 'こんにちは。' . PHP_EOL . '2021年1月1日まで、あと31日です。' . PHP_EOL;
+        $expected = '2021年1月1日まで、'.PHP_EOL.'あと31日です。';
 
         $this->assertEquals($expected, $message->__toString());
     }
