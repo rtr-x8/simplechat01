@@ -6,7 +6,7 @@ namespace Tests\Packages\countDownChat\Application;
 
 use CountDownChat\Application\Batch\PostDailyMessageUseCase;
 use Exception;
-use Illuminate\Support\Facades\Log;
+use Log;
 use Tests\TestCase;
 
 class PostDailyMessageUseCaseTest extends TestCase

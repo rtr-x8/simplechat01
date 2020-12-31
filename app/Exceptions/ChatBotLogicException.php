@@ -3,7 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
-use Illuminate\Support\Facades\Log;
+use Log;
 use Throwable;
 
 class ChatBotLogicException extends Exception

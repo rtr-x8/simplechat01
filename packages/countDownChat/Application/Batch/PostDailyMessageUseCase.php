@@ -8,7 +8,7 @@ use Carbon\Carbon;
 use CountDownChat\Domain\Day\DaysComparer;
 use CountDownChat\Infrastructure\Message\CountDownMessageBuilder;
 use Exception;
-use Illuminate\Support\Facades\Log;
+use Log;
 
 class PostDailyMessageUseCase
 {

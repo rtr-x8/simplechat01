@@ -50,14 +50,12 @@ class LinerRepositoryImpl implements LinerRepository
             ->where('provided_liner_id', $key)
             ->first();
         if (is_null($linerModel)) {
-            $error = new ChatBotLogicException('ラインIDでLinerが見つかりませんでした。',
+            throw new ChatBotLogicException('ラインIDでLinerが見つかりませんでした。',
                 0,
                 null,
                 [
                     'line id' => $key
                 ]);
-            $error->report();
-            throw $error;
         }
         return $linerModel->toDomain();
     }

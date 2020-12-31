@@ -2,6 +2,7 @@
 
 namespace CountDownChat\Domain\Liner;
 
+use App\Exceptions\ChatBotLogicException;
 use BenSampo\Enum\Enum;
 
 /**
@@ -26,6 +27,34 @@ final class LinerSourceType extends Enum
                 return 'トークルーム';
             default:
                 return parent::getDescription($value);
+        }
+    }
+
+    /**
+     * @param  string  $value
+     * @return LinerSourceType
+     * @throws ChatBotLogicException
+     */
+    public static function fromLineValue(string $value): LinerSourceType
+    {
+        switch ($value) {
+            case 'user':
+                return LinerSourceType::User();
+            case 'group':
+                return LinerSourceType::Group();
+            case 'room':
+                return LinerSourceType::Room();
+            default:
+                $error = new ChatBotLogicException(
+                    '不明なソースタイプを検出しました。',
+                    0,
+                    null,
+                    [
+                        'value' => $value
+                    ]
+                );
+                $error->report();
+                throw $error;
         }
     }
 }
