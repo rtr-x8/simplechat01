@@ -8,7 +8,7 @@ return [
     ],
     'hello' => 'こんにちは。',
     'message' => [
-        'default' => ':xDayまで、あと:day日です。'
+        'default' => ":xDayまで、\nあと:day日です。"
     ],
     'exception' => [
         'expiredXDay' => ''
