@@ -26,7 +26,7 @@
             text-align: center;
             font-family: 'Audiowide', cursive;
             background-image: linear-gradient(135deg, var(--main-bg-color) 0%, var(--main-bg-color) 25%, #ffffff 25%, #ffffff 50%, var(--main-bg-color) 50%, var(--main-bg-color) 75%, #ffffff 75%);
-            background-size: 60px 60px;
+            background-size: 120px 120px;
             background-repeat: repeat;
         }
 
