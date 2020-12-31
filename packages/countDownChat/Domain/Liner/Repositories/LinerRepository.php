@@ -4,6 +4,7 @@
 namespace CountDownChat\Domain\Liner\Repositories;
 
 
+use App\Exceptions\ChatBotLogicException;
 use CountDownChat\Domain\Liner\Liner;
 use CountDownChat\Domain\Liner\LinerId;
 
@@ -39,6 +40,7 @@ interface LinerRepository
      *
      * @param  string  $key
      * @return Liner
+     * @throws ChatBotLogicException
      */
     public function findByProviderId(string $key): Liner;
 
