@@ -3,14 +3,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="友達追加して、2020年をカウントダウンしよう！">
+    <meta name="description" content="友達追加して、2022年をカウントダウンしよう！">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
 
     <meta property="og:type" content="blog">
-    <meta property="og:description" content="友達追加して、2020年をカウントダウンしよう！">
+    <meta property="og:description" content="友達追加して、2022年をカウントダウンしよう！">
     <meta property="og:title" content="{{ config('app.name') }}">
     <meta property="og:url" content="{{ config('app.url') }}">
     <meta property="og:image"
@@ -80,7 +80,7 @@
     <title>{{ config('app.name') }}</title>
 </head>
 <body class="wrapper">
-<h1>Count Down<br><span>2020</span></h1>
+<h1>Count Down<br><span>2022</span></h1>
 <div class="line-it-button" data-lang="ja" data-type="friend" data-lineid="284aezpw" style="display: none;"></div>
 <script src="https://www.line-website.com/social-plugins/js/thirdparty/loader.min.js" async="async"
         defer="defer"></script>
