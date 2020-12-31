@@ -8,6 +8,18 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
 
+    <meta property="og:type" content="blog">
+    <meta property="og:description" content="友達追加して、2020年をカウントダウンしよう！">
+    <meta property="og:title" content="{{ config('app.name') }}">
+    <meta property="og:url" content="{{ config('app.url') }}">
+    <meta property="og:image"
+          content="https://github.com/rtr-x8/simplechat01/blob/feature/init-top-page/resources/img/ogp.png?raw=true">
+    <meta property="og:site_name" content="{{ config('app.name') }}">
+    <meta property="og:locale" content="ja_JP"/>
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@rtr_x8">
+    <meta name="twitter:creator" content="@rtr_x8">
+
     <style>
         body {
             --main-bg-color: #C7261A;
