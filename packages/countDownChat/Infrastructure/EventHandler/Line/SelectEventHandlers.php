@@ -40,6 +40,7 @@ class SelectEventHandlers
             return $this->followEventHandler->setEvent($event);
         }
 
+
         Log::info(sprintf(
             'Unexpected event type has come, something wrong [class name: %s]',
             get_class($event)
