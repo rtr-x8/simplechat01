@@ -49,7 +49,7 @@ class CheckDateCommand extends Command
 
         $today = now();
         $xDay = XDay::new()->toCarbon();
-        $format = config('constants.format.date');
+        $format = config('constants.format.systemDate');
 
         Log::info(__('count_down_bot.check_date.command.executed'), [
             __('count_down_bot.chara.today') => $today->format($format),
