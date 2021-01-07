@@ -35,7 +35,8 @@ class DaysComparer
      */
     public function getDiff()
     {
-        return $this->diff->days;
+        $excess = $this->diff->h > 0 ? 1 : 0;
+        return $this->diff->days + $excess;
     }
 
     /**
