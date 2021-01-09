@@ -4,6 +4,8 @@
 namespace Tests\Packages\countDownChat\Infrastructure\Deadline\Repositories;
 
 
+use App\Exceptions\ChatBotLogicException;
+use CountDownChat\Domain\Deadline\DeadlineId;
 use CountDownChat\Domain\Liner\LinerId;
 use CountDownChat\Infrastructure\Deadline\Model\DeadlineModel;
 use CountDownChat\Infrastructure\Deadline\Repositories\DeadlineRepositoryImpl;
@@ -60,6 +62,39 @@ class DeadlineRepositoryImplTest extends TestCase
             ->findByLinerId(LinerId::of(Str::uuid()));
 
         $this->assertCount(0, $deadlines);
+    }
+
+    /**
+     * @test
+     */
+    public function 更新成功()
+    {
+        $expected = 'new name';
+
+        $linerModel = LinerModel::factory()->create();
+        $deadlineModel = DeadlineModel::factory()->create([
+            'liner_id' => $linerModel->getKey()
+        ]);
+        $deadline = $deadlineModel->toDomain();
+
+        $actual = $this->deadLineRepository->update($deadline->getDeadlineId(), [
+            'name' => $expected
+        ]);
+
+        $this->assertEquals($expected, $actual->getName()->value());
+    }
+
+    /**
+     * @test
+     * @throws ChatBotLogicException
+     */
+    public function 更新しようとして例外()
+    {
+        $this->expectException(ChatBotLogicException::class);
+
+        $this->deadLineRepository->update(DeadlineId::new(), [
+            'name' => 'new name'
+        ]);
     }
 
     protected function setUp(): void

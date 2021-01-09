@@ -5,6 +5,7 @@ namespace CountDownChat\Domain\Deadline\Repositories;
 
 
 use CountDownChat\Domain\Deadline\Deadline;
+use CountDownChat\Domain\Deadline\DeadlineId;
 use CountDownChat\Domain\Liner\LinerId;
 
 interface DeadlineRepository
@@ -24,4 +25,13 @@ interface DeadlineRepository
      * @return Deadline[]
      */
     public function findByLinerId(LinerId $linerId): array;
+
+    /**
+     * 更新
+     *
+     * @param  DeadlineId  $deadlineId
+     * @param  array  $array
+     * @return Deadline
+     */
+    public function update(DeadlineId $deadlineId, array $array): Deadline;
 }
