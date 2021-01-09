@@ -10,8 +10,8 @@ use CountDownChat\Domain\Liner\LinerId;
 class Deadline
 {
     private DeadlineId $deadlineId;
-    private DeadlineName $deadlineName;
-    private DeadlineDescription $deadlineDescription;
+    private DeadlineName $name;
+    private DeadlineDescription $description;
     private Carbon $deadlineAt;
     private LinerId $linerId;
     private bool $isActive;
@@ -37,36 +37,36 @@ class Deadline
     /**
      * @return DeadlineName
      */
-    public function getDeadlineName(): DeadlineName
+    public function getName(): DeadlineName
     {
-        return $this->deadlineName;
+        return $this->name;
     }
 
     /**
-     * @param  DeadlineName  $deadlineName
+     * @param  DeadlineName  $name
      * @return Deadline
      */
-    public function setDeadlineName(DeadlineName $deadlineName): Deadline
+    public function setName(DeadlineName $name): Deadline
     {
-        $this->deadlineName = $deadlineName;
+        $this->name = $name;
         return $this;
     }
 
     /**
      * @return DeadlineDescription
      */
-    public function getDeadlineDescription(): DeadlineDescription
+    public function getDescription(): DeadlineDescription
     {
-        return $this->deadlineDescription;
+        return $this->description;
     }
 
     /**
-     * @param  DeadlineDescription  $deadlineDescription
+     * @param  DeadlineDescription  $description
      * @return Deadline
      */
-    public function setDeadlineDescription(DeadlineDescription $deadlineDescription): Deadline
+    public function setDescription(DeadlineDescription $description): Deadline
     {
-        $this->deadlineDescription = $deadlineDescription;
+        $this->description = $description;
         return $this;
     }
 
