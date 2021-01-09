@@ -13,3 +13,6 @@ npm-debug.log
 yarn-error.log
 .idea/simplechat01.time
 .env.testing
+/_ide_helper_models.php
+/_ide_helper.php
+/.phpstorm.meta.php
