@@ -17,8 +17,8 @@ class DeadlineModel extends Model
 
     public $incrementing = false;
     public $keyType = 'string';
-    protected $table = "liners";
-    protected $primaryKey = 'liner_id';
+    protected $table = "deadlines";
+    protected $primaryKey = 'deadline_id';
 
     /**
      * The attributes that are mass assignable.
@@ -32,6 +32,10 @@ class DeadlineModel extends Model
         'description',
         'is_active',
         'is_complete',
+        'deadline_at',
+    ];
+
+    protected $dates = [
         'deadline_at',
     ];
 
@@ -62,7 +66,7 @@ class DeadlineModel extends Model
 
     public function toDomain(): Deadline
     {
-        $deadline = new Deadline(DeadlineId::new());
+        $deadline = new Deadline(DeadlineId::of($this->getKey()));
         return $deadline
             ->setName(DeadlineName::of($this->name))
             ->setDescription(DeadlineDescription::of($this->description))
