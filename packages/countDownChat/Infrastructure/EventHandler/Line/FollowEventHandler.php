@@ -45,6 +45,7 @@ class FollowEventHandler implements LineEventHandler
         $type = $this->getSourceType();
         $providerId = $this->getEventSourceId();
         $this->linerService->createOrActivateLiner($providerId, $type);
+        // TODO ここで新しく作る。
         $message = $this->createMessage();
         LINEBot::replyMessage($this->followEvent->getReplyToken(), $message);
     }
