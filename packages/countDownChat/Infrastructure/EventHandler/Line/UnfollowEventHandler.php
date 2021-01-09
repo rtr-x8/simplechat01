@@ -48,6 +48,7 @@ class UnfollowEventHandler implements LineEventHandler
             $this->linerRepository->update($liner, [
                 'is_active' => false
             ]);
+            // TODO ここで紐づくデッドラインを終了にする。
             \Log::info('ブロックされました。');
         } catch (ChatBotLogicException $e) {
             throw new ChatBotLogicException(

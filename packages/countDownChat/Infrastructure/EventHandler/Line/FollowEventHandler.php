@@ -45,6 +45,7 @@ class FollowEventHandler implements LineEventHandler
         $type = $this->getSourceType();
         $providerId = $this->getEventSourceId();
         $this->linerService->createOrActivateLiner($providerId, $type);
+        // TODO ここで新しく作る。
         $message = $this->createMessage();
         LINEBot::replyMessage($this->followEvent->getReplyToken(), $message);
     }
@@ -101,7 +102,7 @@ class FollowEventHandler implements LineEventHandler
      */
     private function createMessage(): MessageBuilder
     {
-        $greetingMessage = "こんにちは！\n2022年まで毎日カウントダウンする、スーパーチャットボットです！";
+        $greetingMessage = "こんにちは！\nカウントダウンチャットボットです！";
         $countdownMessage = CountDownMessageBuilder::new(today(), XDay::new()->toCarbon());
         return new TextMessageBuilder($greetingMessage, $countdownMessage->__toString());
     }

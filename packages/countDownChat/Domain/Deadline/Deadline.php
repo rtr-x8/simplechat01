@@ -5,6 +5,7 @@ namespace CountDownChat\Domain\Deadline;
 
 
 use Carbon\Carbon;
+use CountDownChat\Domain\Day\DaysComparer;
 use CountDownChat\Domain\Liner\LinerId;
 
 class Deadline
@@ -140,5 +141,18 @@ class Deadline
     {
         $this->isComplete = $isComplete;
         return $this;
+    }
+
+    /**
+     * アクティブかつ、未完了かつ、未来日の時通知可能
+     *
+     * @return bool
+     */
+    public function isNotifiable(): bool
+    {
+        return
+            $this->isActive()
+            && !$this->isComplete()
+            && !DaysComparer::new(today(), $this->getDeadlineAt())->isExpired();
     }
 }
