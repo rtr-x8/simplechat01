@@ -69,7 +69,6 @@ class DeadlinesMessage
             ->setLayout(ComponentLayout::VERTICAL)
             ->setBackgroundColor('#27ACB2')
             ->setPaddingAll(ComponentSpacing::LG)
-            ->setPaddingBottom('20px')
             ->setContents([$headerTextComponent]);
     }
 
@@ -78,7 +77,7 @@ class DeadlinesMessage
         $bodyText = CountDownMessageBuilder::new(today(), $deadline)->__toString();
         $bodyTextComponent = TextComponentBuilder::builder()
             ->setText($bodyText)
-            ->setSize(ComponentFontSize::SM)
+            ->setSize(ComponentFontSize::MD)
             ->setWrap(true)
             ->setFlex(0);
         return BoxComponentBuilder::builder()
