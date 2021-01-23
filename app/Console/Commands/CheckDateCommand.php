@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use CountDownChat\Application\Batch\PostDailyMessageUseCase;
+use CountDownChat\Application\Batch\PostCountDownMessageUseCase;
 use CountDownChat\Domain\Day\XDay;
 use Exception;
 use Illuminate\Console\Command;
@@ -10,7 +10,7 @@ use Log;
 
 class CheckDateCommand extends Command
 {
-    private PostDailyMessageUseCase $postMessageUseCase;
+    private PostCountDownMessageUseCase $postCountDownMessageUseCase;
 
     /**
      * The name and signature of the console command.
@@ -24,18 +24,18 @@ class CheckDateCommand extends Command
      *
      * @var string
      */
-    protected $description = '日付を計算して指定日までの日数を計算します';
+    protected $description = 'Deadlineを通知します。';
 
     /**
      * Create a new command instance.
      *
-     * @param  PostDailyMessageUseCase  $postMessageUseCase
+     * @param  PostCountDownMessageUseCase  $postCountDownMessageUseCase
      */
     public function __construct(
-        PostDailyMessageUseCase $postMessageUseCase
+        PostCountDownMessageUseCase $postCountDownMessageUseCase
     ) {
         parent::__construct();
-        $this->postMessageUseCase = $postMessageUseCase;
+        $this->postCountDownMessageUseCase = $postCountDownMessageUseCase;
     }
 
     /**
@@ -57,6 +57,6 @@ class CheckDateCommand extends Command
             __('count_down_bot.chara.x_day') => $xDay->format($format)
         ]);
 
-        $this->postMessageUseCase->post($today, $xDay);
+        $this->postCountDownMessageUseCase->post();
     }
 }
