@@ -4,8 +4,12 @@
 namespace CountDownChat\Application\Batch;
 
 
+use CountDownChat\Domain\Deadline\Deadline;
 use CountDownChat\Domain\Deadline\Repositories\DeadlineRepository;
 use CountDownChat\Domain\Liner\Repositories\LinerRepository;
+use CountDownChat\Infrastructure\Message\CountDownMessageBuilder;
+use LINE\LINEBot\MessageBuilder\TextMessageBuilder;
+use LINEBot;
 
 /**
  * 1. アクティブなLinerとdealineを結号して取得
@@ -38,23 +42,26 @@ class PostCountDownMessageUseCase
         $this->deadlineRepository = $deadlineRepository;
         $this->linerRepository = $linerRepository;
     }
-    /*
-        public function post(): void
-        {
-            $activeLiners = $this->linerRepository->findActiveLiners();
 
-            collect($activeLiners)->map(function (Liner $liner) {
-                $deadlines = $this->deadlineRepository->findByLinerId($liner->getLinerId());
-                collect($deadlines)->filter(function (Deadline $deadline) {
-                    return $deadline->isNotifiable();
-                })->map(function (Deadline $deadline) use ($liner) {
-                    $message = CountDownMessageBuilder::new(
-                        now(),
-                        $deadline->getDeadlineAt()
-                    )->__toString();
-                    \LINEBot::pushMessage($liner->getProviderLinerId(), new TextMessageBuilder($message));
-                });
-            });
+    public function post(): void
+    {
+        // activeなLinerを取得
+        $activeLiners = $this->linerRepository->findActiveLiners();
+
+        // ライナーに紐づくactiveなDeadlineを通知する
+        foreach ($activeLiners as $liner) {
+            $deadlines = $this->deadlineRepository->findByLinerId($liner->getLinerId());
+            $activeDeadlines = collect($deadlines)->filter(function (Deadline $deadline) {
+                return $deadline->isNotifiable();
+            })->toArray();
+            foreach ($activeDeadlines as $deadline) {
+                $message = CountDownMessageBuilder::new(
+                    now(),
+                    $deadline->getDeadlineAt()
+                )->__toString();
+                LINEBot::pushMessage($liner->getProviderLinerId(), new TextMessageBuilder($message));
+            }
         }
-    */
+    }
+
 }
