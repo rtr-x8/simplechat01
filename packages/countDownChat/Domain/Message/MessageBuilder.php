@@ -5,8 +5,9 @@ namespace CountDownChat\Domain\Message;
 
 
 use Carbon\Carbon;
+use CountDownChat\Domain\Deadline\Deadline;
 
 interface MessageBuilder
 {
-    public static function new(Carbon $today, Carbon $xDay, int $diff): MessageBuilder;
+    public static function new(Carbon $today, Deadline $deadline): MessageBuilder;
 }

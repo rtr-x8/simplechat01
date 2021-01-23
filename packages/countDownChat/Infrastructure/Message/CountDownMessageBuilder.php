@@ -6,6 +6,7 @@ namespace CountDownChat\Infrastructure\Message;
 
 use Carbon\Carbon;
 use CountDownChat\Domain\Day\DaysComparer;
+use CountDownChat\Domain\Deadline\Deadline;
 use CountDownChat\Domain\Message\MessageBuilder;
 
 class CountDownMessageBuilder implements MessageBuilder
@@ -21,12 +22,12 @@ class CountDownMessageBuilder implements MessageBuilder
         $this->message = $message;
     }
 
-    public static function new(Carbon $today, Carbon $xDay, int $diff = null): CountDownMessageBuilder
+    public static function new(Carbon $today, Deadline $deadline): CountDownMessageBuilder
     {
-        $diff = is_null($diff) ? DaysComparer::new($today, $xDay)->getDiff() : $diff;
+        $diff = DaysComparer::new($today, $deadline->getDeadlineAt());
         $message = __('count_down_bot.message.default', [
-            'xDay' => $xDay->format(config('constants.format.date')),
-            'day' => $diff
+            'xDay' => $deadline->getName(),
+            'day' => $diff->getDiff()
         ]);
         return new static($message);
     }

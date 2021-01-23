@@ -5,7 +5,8 @@ namespace CountDownChat\Infrastructure\EventHandler\Line;
 
 
 use App\Exceptions\ChatBotLogicException;
-use CountDownChat\Domain\Day\XDay;
+use CountDownChat\Domain\Deadline\Deadline;
+use CountDownChat\Domain\Deadline\Services\DeadlineService;
 use CountDownChat\Domain\Liner\LinerSourceType;
 use CountDownChat\Domain\Liner\Services\LinerService;
 use CountDownChat\Infrastructure\Message\CountDownMessageBuilder;
@@ -20,15 +21,19 @@ class FollowEventHandler implements LineEventHandler
 {
     private BaseEvent $followEvent;
     private LinerService $linerService;
+    private DeadlineService $deadlineService;
 
     /**
      * FollowEventHandler constructor.
      * @param  LinerService  $linerService
+     * @param  DeadlineService  $deadlineService
      */
     public function __construct(
-        LinerService $linerService
+        LinerService $linerService,
+        DeadlineService $deadlineService
     ) {
         $this->linerService = $linerService;
+        $this->deadlineService = $deadlineService;
     }
 
     public function setEvent($event)
@@ -44,9 +49,9 @@ class FollowEventHandler implements LineEventHandler
     {
         $type = $this->getSourceType();
         $providerId = $this->getEventSourceId();
-        $this->linerService->createOrActivateLiner($providerId, $type);
-        // TODO ここで新しく作る。
-        $message = $this->createMessage();
+        $liner = $this->linerService->createOrActivateLiner($providerId, $type);
+        $deadline = $this->deadlineService->createDefaultDeadline($liner->getLinerId());
+        $message = $this->createMessage($deadline);
         LINEBot::replyMessage($this->followEvent->getReplyToken(), $message);
     }
 
@@ -98,12 +103,13 @@ class FollowEventHandler implements LineEventHandler
     /**
      * メッセージの作成
      *
+     * @param  Deadline  $deadline
      * @return MessageBuilder
      */
-    private function createMessage(): MessageBuilder
+    private function createMessage(Deadline $deadline): MessageBuilder
     {
         $greetingMessage = "こんにちは！\nカウントダウンチャットボットです！";
-        $countdownMessage = CountDownMessageBuilder::new(today(), XDay::new()->toCarbon());
+        $countdownMessage = CountDownMessageBuilder::new(today(), $deadline);
         return new TextMessageBuilder($greetingMessage, $countdownMessage->__toString());
     }
 }
