@@ -4,11 +4,13 @@
 namespace CountDownChat\Infrastructure\EventHandler\Line;
 
 
-use App\Exceptions\ChatBotLogicException;
+use CountDownChat\Domain\Deadline\Repositories\DeadlineRepository;
 use CountDownChat\Domain\Liner\Repositories\LinerRepository;
+use DB;
 use LINE\LINEBot\Event\BaseEvent;
-use LINE\LINEBot\Exception\InvalidEventSourceException;
+use Log;
 use Shared\EventHandler\Line\LineEventHandler;
+use Throwable;
 
 class UnfollowEventHandler implements LineEventHandler
 {
@@ -17,15 +19,22 @@ class UnfollowEventHandler implements LineEventHandler
      * @var LinerRepository
      */
     private LinerRepository $linerRepository;
+    /**
+     * @var DeadlineRepository
+     */
+    private DeadlineRepository $deadlineRepository;
 
     /**
      * UnfollowEventHandler constructor.
      * @param  LinerRepository  $linerRepository
+     * @param  DeadlineRepository  $deadlineRepository
      */
     public function __construct(
-        LinerRepository $linerRepository
+        LinerRepository $linerRepository,
+        DeadlineRepository $deadlineRepository
     ) {
         $this->linerRepository = $linerRepository;
+        $this->deadlineRepository = $deadlineRepository;
     }
 
     /**
@@ -39,29 +48,29 @@ class UnfollowEventHandler implements LineEventHandler
 
     /**
      * @inheritDoc
-     * @throws ChatBotLogicException
+     * @throws Throwable
      */
     public function handle(): void
     {
-        try {
+        DB::transaction(function () {
+            // ライナーの非活性処理
             $liner = $this->linerRepository->findByProviderId($this->unFollowEvent->getEventSourceId());
             $this->linerRepository->update($liner, [
                 'is_active' => false
             ]);
-            // TODO ここで紐づくデッドラインを終了にする。
-            \Log::info('ブロックされました。');
-        } catch (ChatBotLogicException $e) {
-            throw new ChatBotLogicException(
-                '存在しないユーザーがブロックしました。',
-                0,
-                $e
-            );
-        } catch (InvalidEventSourceException $e) {
-            throw new ChatBotLogicException(
-                'なんかおかしい',
-                0,
-                $e
-            );
-        }
+
+            // Deadlineの非活性処理
+            $deadlines = $this->deadlineRepository->findByLinerId($liner->getLinerId());
+            foreach ($deadlines as $deadline) {
+                $this->deadlineRepository->update($deadline->getDeadlineId(), [
+                    'is_active' => false
+                ]);
+            }
+
+            Log::info('ブロックされました。', [
+                'count deadline' => count($deadlines)
+            ]);
+        });
+
     }
 }
