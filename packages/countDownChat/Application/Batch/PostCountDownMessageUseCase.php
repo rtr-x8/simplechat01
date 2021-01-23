@@ -7,12 +7,11 @@ namespace CountDownChat\Application\Batch;
 use CountDownChat\Domain\Deadline\Deadline;
 use CountDownChat\Domain\Deadline\Repositories\DeadlineRepository;
 use CountDownChat\Domain\Liner\Repositories\LinerRepository;
-use CountDownChat\Infrastructure\Message\CountDownMessageBuilder;
-use LINE\LINEBot\MessageBuilder\TextMessageBuilder;
+use CountDownChat\Infrastructure\Message\DeadlinesMessage;
 use LINEBot;
 
 /**
- * 1. アクティブなLinerとdealineを結号して取得
+ * 1. アクティブなLinerとdeadlineを結号して取得
  *
  * Class PostCountDownMessageUseCase
  * @package CountDownChat\Application\Batch
@@ -54,13 +53,8 @@ class PostCountDownMessageUseCase
             $activeDeadlines = collect($deadlines)->filter(function (Deadline $deadline) {
                 return $deadline->isNotifiable();
             })->toArray();
-            foreach ($activeDeadlines as $deadline) {
-                $message = CountDownMessageBuilder::new(
-                    now(),
-                    $deadline
-                )->__toString();
-                LINEBot::pushMessage($liner->getProviderLinerId(), new TextMessageBuilder($message));
-            }
+            $message = new DeadlinesMessage($activeDeadlines);
+            LINEBot::pushMessage($liner->getProviderLinerId(), $message->build());
         }
     }
 
