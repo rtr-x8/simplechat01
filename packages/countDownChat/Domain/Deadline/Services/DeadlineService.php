@@ -33,7 +33,7 @@ class DeadlineService
     {
         $deadLine = new Deadline(DeadlineId::new());
         $deadLine
-            ->setDeadlineAt(Carbon::parse('2022-01-01'))
+            ->setDeadlineAt(Carbon::parse('2022/01/01 00:00:00'))
             ->setIsComplete(false)
             ->setIsActive(true)
             ->setLinerId($linerId)

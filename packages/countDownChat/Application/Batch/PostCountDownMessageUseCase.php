@@ -57,7 +57,7 @@ class PostCountDownMessageUseCase
             foreach ($activeDeadlines as $deadline) {
                 $message = CountDownMessageBuilder::new(
                     now(),
-                    $deadline->getDeadlineAt()
+                    $deadline
                 )->__toString();
                 LINEBot::pushMessage($liner->getProviderLinerId(), new TextMessageBuilder($message));
             }

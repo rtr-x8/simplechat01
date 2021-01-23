@@ -4,8 +4,6 @@
 namespace CountDownChat\Infrastructure\EventHandler\Line\MessageHandler;
 
 
-use CountDownChat\Domain\Day\XDay;
-use CountDownChat\Infrastructure\Message\CountDownMessageBuilder;
 use LINE\LINEBot\Event\BaseEvent;
 use LINE\LINEBot\MessageBuilder\TextMessageBuilder;
 use LINEBot;
@@ -29,8 +27,7 @@ class TextMessageHandler implements LineEventHandler
      */
     public function handle(): void
     {
-        $countdownMessage = CountDownMessageBuilder::new(today(), XDay::new()->toCarbon());
-        $messageBuilder = new TextMessageBuilder($countdownMessage->__toString());
+        $messageBuilder = new TextMessageBuilder(__('count_down_bot.hello'));
         LINEBot::replyMessage($this->textMessageEvent->getReplyToken(), $messageBuilder);
     }
 }
