@@ -6,6 +6,7 @@ namespace CountDownChat\Infrastructure\EventHandler\Line;
 
 use App\Exceptions\ChatBotLogicException;
 use CountDownChat\Domain\Day\XDay;
+use CountDownChat\Domain\Deadline\Services\DeadlineService;
 use CountDownChat\Domain\Liner\LinerSourceType;
 use CountDownChat\Domain\Liner\Services\LinerService;
 use CountDownChat\Infrastructure\Message\CountDownMessageBuilder;
@@ -20,15 +21,19 @@ class FollowEventHandler implements LineEventHandler
 {
     private BaseEvent $followEvent;
     private LinerService $linerService;
+    private DeadlineService $deadlineService;
 
     /**
      * FollowEventHandler constructor.
      * @param  LinerService  $linerService
+     * @param  DeadlineService  $deadlineService
      */
     public function __construct(
-        LinerService $linerService
+        LinerService $linerService,
+        DeadlineService $deadlineService
     ) {
         $this->linerService = $linerService;
+        $this->deadlineService = $deadlineService;
     }
 
     public function setEvent($event)
@@ -44,8 +49,8 @@ class FollowEventHandler implements LineEventHandler
     {
         $type = $this->getSourceType();
         $providerId = $this->getEventSourceId();
-        $this->linerService->createOrActivateLiner($providerId, $type);
-        // TODO ここで新しく作る。
+        $liner = $this->linerService->createOrActivateLiner($providerId, $type);
+        $this->deadlineService->createDefaultDeadline($liner->getLinerId());
         $message = $this->createMessage();
         LINEBot::replyMessage($this->followEvent->getReplyToken(), $message);
     }
