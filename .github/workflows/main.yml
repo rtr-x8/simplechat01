@@ -10,19 +10,28 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+      - uses: actions/checkout@v1
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.ci', '.env');"
-    - name: Install Dependencies
-      run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
-    - name: Generate key
-      run: php artisan key:generate
-    - name: Create Database
-      run: |
-        mkdir -p database
-        touch database/database.sqlite
-    - name: Execute tests (Unit and Feature tests) via PHPUnit
-      run: php artisan test
+      - name: Install Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
+      - name: Generate key
+        run: php artisan key:generate
+      - name: Create Database
+        run: |
+          mkdir -p database
+          touch database/database.sqlite
+      - name: Execute tests (Unit and Feature tests) via PHPUnit
+        run: php artisan test
+
+      - name: Notify testing to slack
+          - uses: 8398a7/action-slack@v3
+            with:
+              status: ${{ job.status }}
+              fields: repo,message,commit,author,action,eventName,ref,workflow,job,took # selectable (default: repo,message)
+            env:
+              SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
+            if: always() # Pick up events even if the job fails or is canceled.
 
   deploy:
 
@@ -30,9 +39,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - uses: akhileshns/heroku-deploy@v3.7.8
-      with:
-        heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-        heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
-        heroku_email: ${{secrets.HEROKU_EMAIL}}
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.7.8
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
+
+      - name: Notify deploying to slack
+          - uses: 8398a7/action-slack@v3
+            with:
+              status: ${{ job.status }}
+              fields: repo,message,commit,author,action,eventName,ref,workflow,job,took # selectable (default: repo,message)
+            env:
+              SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
+            if: always() # Pick up events even if the job fails or is canceled.
