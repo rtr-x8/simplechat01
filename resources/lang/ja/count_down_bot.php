@@ -7,6 +7,8 @@ return [
         'executed_day' => '実行日'
     ],
     'hello' => 'こんにちは。',
+    'welcome' => '友達登録ありがとう！',
+    'introduction' => 'カウントダウンBOTです！',
     'message' => [
         'default' => ":xDayまで、\nあと:day日です。"
     ],

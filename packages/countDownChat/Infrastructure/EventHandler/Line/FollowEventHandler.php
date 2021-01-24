@@ -5,11 +5,11 @@ namespace CountDownChat\Infrastructure\EventHandler\Line;
 
 
 use App\Exceptions\ChatBotLogicException;
-use CountDownChat\Domain\Deadline\Deadline;
 use CountDownChat\Domain\Deadline\Services\DeadlineService;
 use CountDownChat\Domain\Liner\LinerSourceType;
 use CountDownChat\Domain\Liner\Services\LinerService;
-use CountDownChat\Infrastructure\Message\CountDownMessageBuilder;
+use CountDownChat\Infrastructure\Message\DeadlinesMessage;
+use CountDownChat\Infrastructure\Message\WelcomeMessage;
 use LINE\LINEBot\Event\BaseEvent;
 use LINE\LINEBot\Exception\InvalidEventSourceException;
 use LINE\LINEBot\MessageBuilder;
@@ -51,8 +51,9 @@ class FollowEventHandler implements LineEventHandler
         $providerId = $this->getEventSourceId();
         $liner = $this->linerService->createOrActivateLiner($providerId, $type);
         $deadline = $this->deadlineService->createDefaultDeadline($liner->getLinerId());
-        $message = $this->createMessage($deadline);
-        LINEBot::replyMessage($this->followEvent->getReplyToken(), $message);
+        LINEBot::replyMessage($this->followEvent->getReplyToken(), $this->createWelcomeMessage());
+        $deadlineMessage = new DeadlinesMessage([$deadline]);
+        LINEBot::pushMessage($liner->getProviderLinerId(), $deadlineMessage->build());
     }
 
     /**
@@ -101,15 +102,13 @@ class FollowEventHandler implements LineEventHandler
     }
 
     /**
-     * メッセージの作成
+     * ウェルカムメッセージの作成
      *
-     * @param  Deadline  $deadline
      * @return MessageBuilder
      */
-    private function createMessage(Deadline $deadline): MessageBuilder
+    private function createWelcomeMessage(): MessageBuilder
     {
-        $greetingMessage = "こんにちは！\nカウントダウンチャットボットです！";
-        $countdownMessage = CountDownMessageBuilder::new(today(), $deadline);
-        return new TextMessageBuilder($greetingMessage, $countdownMessage->__toString());
+        $welcomeMessageText = new WelcomeMessage();
+        return new TextMessageBuilder($welcomeMessageText->get());
     }
 }
