@@ -7,6 +7,8 @@ return [
         'executed_day' => '実行日'
     ],
     'hello' => 'こんにちは。',
+    'welcome' => '友達登録ありがとう！',
+    'introduction' => 'カウントダウンBOTです！',
     'message' => [
         'default' => ":xDayまで、\nあと:day日です。"
     ],
@@ -19,7 +21,8 @@ return [
     ],
     'check_date' => [
         'command' => [
-            'executed' => '日付を計算するバッチ処理「chatbot:checkdate」が起動しました。'
+            'executed' => ':datetime に日付を計算するバッチ処理「chatbot:checkdate」が起動しました。',
+            'result' => ':linerCount 人のユーザーに、合計 :deadlineCount 件の通知を行いました。'
         ]
     ]
 ];
