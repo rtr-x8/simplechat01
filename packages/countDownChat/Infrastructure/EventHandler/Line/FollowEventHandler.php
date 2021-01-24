@@ -13,7 +13,6 @@ use CountDownChat\Infrastructure\Message\WelcomeMessage;
 use LINE\LINEBot\Event\BaseEvent;
 use LINE\LINEBot\Exception\InvalidEventSourceException;
 use LINE\LINEBot\MessageBuilder;
-use LINE\LINEBot\MessageBuilder\TextMessageBuilder;
 use LINEBot;
 use Shared\EventHandler\Line\LineEventHandler;
 
@@ -53,7 +52,7 @@ class FollowEventHandler implements LineEventHandler
         $deadline = $this->deadlineService->createDefaultDeadline($liner->getLinerId());
         LINEBot::replyMessage($this->followEvent->getReplyToken(), $this->createWelcomeMessage());
         $deadlineMessage = new DeadlinesMessage([$deadline]);
-        LINEBot::pushMessage($liner->getProviderLinerId(), $deadlineMessage->build());
+        LINEBot::pushMessage($liner->getProviderLinerId(), $deadlineMessage->get());
     }
 
     /**
@@ -109,6 +108,6 @@ class FollowEventHandler implements LineEventHandler
     private function createWelcomeMessage(): MessageBuilder
     {
         $welcomeMessageText = new WelcomeMessage();
-        return new TextMessageBuilder($welcomeMessageText->get());
+        return $welcomeMessageText->get();
     }
 }

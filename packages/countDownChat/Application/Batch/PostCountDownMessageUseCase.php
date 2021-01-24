@@ -54,7 +54,7 @@ class PostCountDownMessageUseCase
                 return $deadline->isNotifiable();
             })->toArray();
             $message = new DeadlinesMessage($activeDeadlines);
-            LINEBot::pushMessage($liner->getProviderLinerId(), $message->build());
+            LINEBot::pushMessage($liner->getProviderLinerId(), $message->get());
         }
     }
 

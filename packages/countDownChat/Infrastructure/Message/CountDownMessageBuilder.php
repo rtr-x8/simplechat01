@@ -9,7 +9,7 @@ use CountDownChat\Domain\Day\DaysComparer;
 use CountDownChat\Domain\Deadline\Deadline;
 use CountDownChat\Domain\Message\MessageBuilder;
 
-class CountDownMessageBuilder implements MessageBuilder
+class CountDownMessageBuilder
 {
     private string $message;
 
@@ -35,6 +35,11 @@ class CountDownMessageBuilder implements MessageBuilder
     public function __toString(): string
     {
         return $this->message;
+    }
+
+    public function toString(): string
+    {
+        return $this->__toString();
     }
 
 
