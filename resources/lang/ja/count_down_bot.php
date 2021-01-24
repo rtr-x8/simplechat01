@@ -21,7 +21,8 @@ return [
     ],
     'check_date' => [
         'command' => [
-            'executed' => '日付を計算するバッチ処理「chatbot:checkdate」が起動しました。'
+            'executed' => '日付を計算するバッチ処理「chatbot:checkdate」が起動しました。',
+            'result' => ':linerCount 人のユーザーに、合計 :deadlineCount 件の通知を行いました。'
         ]
     ]
 ];
