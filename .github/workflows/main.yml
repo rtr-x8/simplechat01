@@ -11,8 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-    - name: Copy .env
-      run: php -r "file_exists('.env') || copy('.env.ci', '.env');"
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.ci', '.env');"
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
       - name: Generate key
@@ -46,7 +46,7 @@ jobs:
           heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
           heroku_email: ${{secrets.HEROKU_EMAIL}}
 
-      - name: Notify deploying to slack
+      - name: Notify deploy to slack
           - uses: 8398a7/action-slack@v3
             with:
               status: ${{ job.status }}
