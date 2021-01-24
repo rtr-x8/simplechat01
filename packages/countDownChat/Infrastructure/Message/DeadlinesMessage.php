@@ -5,11 +5,13 @@ namespace CountDownChat\Infrastructure\Message;
 
 
 use CountDownChat\Domain\Deadline\Deadline;
+use CountDownChat\Domain\Message\Message;
 use LINE\LINEBot\Constant\Flex\BubleContainerSize;
 use LINE\LINEBot\Constant\Flex\ComponentFontSize;
 use LINE\LINEBot\Constant\Flex\ComponentFontWeight;
 use LINE\LINEBot\Constant\Flex\ComponentLayout;
 use LINE\LINEBot\Constant\Flex\ComponentSpacing;
+use LINE\LINEBot\MessageBuilder;
 use LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\BoxComponentBuilder;
 use LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder\TextComponentBuilder;
 use LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder;
@@ -17,7 +19,7 @@ use LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\BubbleContainerBuilder;
 use LINE\LINEBot\MessageBuilder\Flex\ContainerBuilder\CarouselContainerBuilder;
 use LINE\LINEBot\MessageBuilder\FlexMessageBuilder;
 
-class DeadlinesMessage
+class DeadlinesMessage implements Message
 {
     /**
      * @var Deadline[]
@@ -34,8 +36,9 @@ class DeadlinesMessage
     }
 
     /**
+     * @inheritDoc
      */
-    public function build()
+    public function get(): MessageBuilder
     {
         $bubbles = collect($this->deadlines)->map(function (Deadline $deadline) {
             return $this->createDeadlineBubble($deadline);
@@ -74,7 +77,7 @@ class DeadlinesMessage
 
     private function createDeadlineBubbleBody(Deadline $deadline)
     {
-        $bodyText = CountDownMessageBuilder::new(today(), $deadline)->__toString();
+        $bodyText = CountDownMessageBuilder::new(today(), $deadline)->toString();
         $bodyTextComponent = TextComponentBuilder::builder()
             ->setText($bodyText)
             ->setSize(ComponentFontSize::MD)

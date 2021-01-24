@@ -3,8 +3,12 @@
 
 namespace CountDownChat\Domain\Message;
 
+use LINE\LINEBot\MessageBuilder;
 
 interface Message
 {
-    public function get();
+    /**
+     * @return MessageBuilder
+     */
+    public function get(): MessageBuilder;
 }

@@ -5,6 +5,8 @@ namespace CountDownChat\Infrastructure\Message;
 
 
 use CountDownChat\Domain\Message\Message;
+use LINE\LINEBot\MessageBuilder;
+use LINE\LINEBot\MessageBuilder\TextMessageBuilder;
 
 class WelcomeMessage implements Message
 {
@@ -21,8 +23,8 @@ class WelcomeMessage implements Message
         $this->message = $hello.PHP_EOL.$welcome.PHP_EOL.$introduction;
     }
 
-    public function get(): string
+    public function get(): MessageBuilder
     {
-        return $this->message;
+        return new TextMessageBuilder($this->message);
     }
 }
